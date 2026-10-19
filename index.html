@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f5f4ef">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f4ef" />
     <title>Pocket Ledger — Expense tracker</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -14,15 +14,15 @@
         <span class="brand-mark" aria-hidden="true">pl</span>
         <span>Pocket Ledger</span>
       </a>
-      <p class="header-note">A clearer picture of your everyday spending.</p>
     </header>
 
     <main class="page">
       <section class="intro" aria-labelledby="page-title">
         <div>
-          <p class="eyebrow">YOUR MONEY, IN PLAIN SIGHT</p>
           <h1 id="page-title">The little things add up.</h1>
-          <p class="intro-copy">Keep track of what you spend, one day at a time.</p>
+          <p class="intro-copy">
+            Keep track of what you spend, one day at a time.
+          </p>
         </div>
         <button class="button button-primary" id="add-expense" type="button">
           <span aria-hidden="true">+</span> Add an expense
@@ -40,25 +40,53 @@
         </div>
       </section>
 
-      <section class="expense-form-panel" id="expense-form-panel" hidden aria-labelledby="form-title">
+      <section
+        class="expense-form-panel"
+        id="expense-form-panel"
+        hidden
+        aria-labelledby="form-title"
+      >
         <div class="panel-heading">
           <div>
             <p class="eyebrow">NEW ENTRY</p>
             <h2 id="form-title">Add an expense</h2>
           </div>
-          <button class="icon-button" id="close-form" type="button" aria-label="Close form">×</button>
+          <button
+            class="icon-button"
+            id="close-form"
+            type="button"
+            aria-label="Close form"
+          >
+            ×
+          </button>
         </div>
         <form id="expense-form">
           <div class="form-grid">
             <label class="field field-wide" for="expense-name">
               What was it for?
-              <input id="expense-name" name="name" type="text" maxlength="70" placeholder="e.g. Coffee with Maya" required>
+              <input
+                id="expense-name"
+                name="name"
+                type="text"
+                maxlength="70"
+                placeholder="e.g. Coffee with Maya"
+                required
+              />
             </label>
             <label class="field" for="expense-amount">
               Amount
               <span class="amount-input">
                 <span aria-hidden="true">₹</span>
-                <input id="expense-amount" name="amount" type="number" min="0.01" max="99999999.99" step="0.01" placeholder="0.00" required>
+                <input
+                  id="expense-amount"
+                  name="amount"
+                  type="number"
+                  min="0.01"
+                  max="99999999.99"
+                  step="0.01"
+                  placeholder="0.00"
+                  required
+                />
               </span>
             </label>
             <label class="field" for="expense-category">
@@ -75,13 +103,26 @@
             </label>
             <label class="field" for="expense-date">
               Date
-              <input id="expense-date" name="date" type="date" required>
+              <input id="expense-date" name="date" type="date" required />
             </label>
           </div>
-          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+          <p
+            class="form-message"
+            id="form-message"
+            role="status"
+            aria-live="polite"
+          ></p>
           <div class="form-actions">
-            <button class="button button-quiet" id="cancel-form" type="button">Cancel</button>
-            <button class="button button-primary" id="save-expense" type="submit">Save expense</button>
+            <button class="button button-quiet" id="cancel-form" type="button">
+              Cancel
+            </button>
+            <button
+              class="button button-primary"
+              id="save-expense"
+              type="submit"
+            >
+              Save expense
+            </button>
           </div>
         </form>
       </section>
@@ -92,7 +133,9 @@
             <p class="eyebrow">FIND SOMETHING</p>
             <h2 id="filter-title">Your expenses</h2>
           </div>
-          <button class="text-button" id="clear-filters" type="button">Clear filters</button>
+          <button class="text-button" id="clear-filters" type="button">
+            Clear filters
+          </button>
         </div>
         <div class="filters">
           <label class="field" for="category-filter">
@@ -110,21 +153,34 @@
           </label>
           <label class="field" for="date-from">
             From
-            <input id="date-from" type="date">
+            <input id="date-from" type="date" />
           </label>
           <label class="field" for="date-to">
             To
-            <input id="date-to" type="date">
+            <input id="date-to" type="date" />
           </label>
         </div>
 
-        <p class="storage-message" id="storage-message" role="status" aria-live="polite"></p>
-        <ul class="expense-list" id="expense-list" aria-label="Expense results"></ul>
+        <p
+          class="storage-message"
+          id="storage-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+        <ul
+          class="expense-list"
+          id="expense-list"
+          aria-label="Expense results"
+        ></ul>
         <div class="empty-state" id="empty-state" hidden>
           <span class="empty-mark" aria-hidden="true">—</span>
           <h3 id="empty-title">Nothing here just yet</h3>
-          <p id="empty-copy">Add your first expense and it will show up here.</p>
-          <button class="button button-secondary" id="empty-add" type="button">Add an expense</button>
+          <p id="empty-copy">
+            Add your first expense and it will show up here.
+          </p>
+          <button class="button button-secondary" id="empty-add" type="button">
+            Add an expense
+          </button>
         </div>
       </section>
 

@@ -8,7 +8,7 @@ const CATEGORIES = [
   "Shopping",
   "Health",
   "Fun",
-  "Other"
+  "Other",
 ];
 
 const formPanel = document.querySelector("#expense-form-panel");
@@ -35,14 +35,16 @@ let editingId = null;
 
 function todayAsString() {
   const today = new Date();
-  const localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000);
+  const localDate = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000,
+  );
   return localDate.toISOString().slice(0, 10);
 }
 
 function formatCurrency(amount) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "INR"
+    currency: "INR",
   }).format(amount);
 }
 
@@ -51,7 +53,7 @@ function formatDate(dateString) {
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
-    year: "numeric"
+    year: "numeric",
   }).format(new Date(year, month - 1, day));
 }
 
@@ -61,25 +63,29 @@ function readExpenses() {
     if (!saved) return [];
 
     const parsed = JSON.parse(saved);
-    if (!Array.isArray(parsed)) throw new Error("Saved expenses are not a list.");
+    if (!Array.isArray(parsed))
+      throw new Error("Saved expenses are not a list.");
 
-    const validExpenses = parsed.filter((expense) =>
-      expense &&
-      typeof expense.id === "string" &&
-      typeof expense.name === "string" &&
-      Number.isFinite(expense.amount) &&
-      expense.amount > 0 &&
-      CATEGORIES.includes(expense.category) &&
-      /^\d{4}-\d{2}-\d{2}$/.test(expense.date)
+    const validExpenses = parsed.filter(
+      (expense) =>
+        expense &&
+        typeof expense.id === "string" &&
+        typeof expense.name === "string" &&
+        Number.isFinite(expense.amount) &&
+        expense.amount > 0 &&
+        CATEGORIES.includes(expense.category) &&
+        /^\d{4}-\d{2}-\d{2}$/.test(expense.date),
     );
 
     if (validExpenses.length !== parsed.length) {
-      storageMessage.textContent = "Some saved entries could not be read and were left out.";
+      storageMessage.textContent =
+        "Some saved entries could not be read and were left out.";
     }
 
     return validExpenses;
   } catch (error) {
-    storageMessage.textContent = "Saved expenses could not be loaded. You can still add new entries.";
+    storageMessage.textContent =
+      "Saved expenses could not be loaded. You can still add new entries.";
     console.error("Could not load saved expenses:", error);
     return [];
   }
@@ -93,7 +99,8 @@ function saveExpenses(nextExpenses) {
     renderExpenses();
     return true;
   } catch (error) {
-    storageMessage.textContent = "Your change could not be saved. Check your browser storage settings and try again.";
+    storageMessage.textContent =
+      "Your change could not be saved. Check your browser storage settings and try again.";
     console.error("Could not save expenses:", error);
     return false;
   }
@@ -101,7 +108,10 @@ function saveExpenses(nextExpenses) {
 
 function getVisibleExpenses() {
   return expenses
-    .filter((expense) => !categoryFilter.value || expense.category === categoryFilter.value)
+    .filter(
+      (expense) =>
+        !categoryFilter.value || expense.category === categoryFilter.value,
+    )
     .filter((expense) => !dateFrom.value || expense.date >= dateFrom.value)
     .filter((expense) => !dateTo.value || expense.date <= dateTo.value)
     .sort((first, second) => {
@@ -120,18 +130,26 @@ function makeElement(tag, className, text) {
 function createExpenseRow(expense) {
   const item = makeElement("li", "expense-item");
   const main = makeElement("div", "expense-main");
-  const mark = makeElement("span", "category-mark", expense.category.slice(0, 1));
+  const mark = makeElement(
+    "span",
+    "category-mark",
+    expense.category.slice(0, 1),
+  );
   mark.setAttribute("aria-hidden", "true");
 
   const details = makeElement("div");
   details.append(
     makeElement("p", "expense-name", expense.name),
-    makeElement("p", "expense-date", formatDate(expense.date))
+    makeElement("p", "expense-date", formatDate(expense.date)),
   );
   main.append(mark, details);
 
   const category = makeElement("span", "expense-category", expense.category);
-  const amount = makeElement("p", "expense-amount", formatCurrency(expense.amount));
+  const amount = makeElement(
+    "p",
+    "expense-amount",
+    formatCurrency(expense.amount),
+  );
 
   const actions = makeElement("div", "expense-actions");
   const editButton = makeElement("button", "expense-action", "Edit");
@@ -140,7 +158,11 @@ function createExpenseRow(expense) {
   editButton.dataset.id = expense.id;
   editButton.setAttribute("aria-label", `Edit ${expense.name}`);
 
-  const deleteButton = makeElement("button", "expense-action expense-action-delete", "Delete");
+  const deleteButton = makeElement(
+    "button",
+    "expense-action expense-action-delete",
+    "Delete",
+  );
   deleteButton.type = "button";
   deleteButton.dataset.action = "delete";
   deleteButton.dataset.id = expense.id;
@@ -153,7 +175,10 @@ function createExpenseRow(expense) {
 
 function renderExpenses() {
   const visibleExpenses = getVisibleExpenses();
-  const total = visibleExpenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const total = visibleExpenses.reduce(
+    (sum, expense) => sum + expense.amount,
+    0,
+  );
 
   filteredTotal.textContent = formatCurrency(total);
   resultCount.textContent = `${visibleExpenses.length} ${visibleExpenses.length === 1 ? "expense" : "expenses"}`;
@@ -162,7 +187,9 @@ function renderExpenses() {
   const noSavedExpenses = expenses.length === 0;
   emptyState.hidden = visibleExpenses.length > 0;
   expenseList.hidden = visibleExpenses.length === 0;
-  emptyTitle.textContent = noSavedExpenses ? "Nothing here just yet" : "No expenses match";
+  emptyTitle.textContent = noSavedExpenses
+    ? "Nothing here just yet"
+    : "No expenses match";
   emptyCopy.textContent = noSavedExpenses
     ? "Add your first expense and it will show up here."
     : "Try changing the category or date range.";
@@ -200,8 +227,12 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-document.querySelector("#add-expense").addEventListener("click", () => openForm());
-document.querySelector("#empty-add").addEventListener("click", () => openForm());
+document
+  .querySelector("#add-expense")
+  .addEventListener("click", () => openForm());
+document
+  .querySelector("#empty-add")
+  .addEventListener("click", () => openForm());
 document.querySelector("#close-form").addEventListener("click", closeForm);
 document.querySelector("#cancel-form").addEventListener("click", closeForm);
 
@@ -214,8 +245,15 @@ expenseForm.addEventListener("submit", (event) => {
   const category = document.querySelector("#expense-category").value;
   const date = expenseDate.value;
 
-  if (!name || !Number.isFinite(amount) || amount <= 0 || !CATEGORIES.includes(category) || !date) {
-    formMessage.textContent = "Add a description, a positive amount, a category, and a date.";
+  if (
+    !name ||
+    !Number.isFinite(amount) ||
+    amount <= 0 ||
+    !CATEGORIES.includes(category) ||
+    !date
+  ) {
+    formMessage.textContent =
+      "Add a description, a positive amount, a category, and a date.";
     return;
   }
 
@@ -225,11 +263,13 @@ expenseForm.addEventListener("submit", (event) => {
     name,
     amount: Math.round(amount * 100) / 100,
     category,
-    date
+    date,
   };
 
   const nextExpenses = currentExpense
-    ? expenses.map((expense) => expense.id === editingId ? updatedExpense : expense)
+    ? expenses.map((expense) =>
+        expense.id === editingId ? updatedExpense : expense,
+      )
     : [...expenses, updatedExpense];
 
   if (saveExpenses(nextExpenses)) closeForm();
@@ -248,7 +288,9 @@ expenseList.addEventListener("click", (event) => {
   }
 
   if (button.dataset.action === "delete") {
-    const confirmed = window.confirm(`Remove "${expense.name}" from your expenses?`);
+    const confirmed = window.confirm(
+      `Remove "${expense.name}" from your expenses?`,
+    );
     if (confirmed) {
       saveExpenses(expenses.filter((item) => item.id !== expense.id));
     }

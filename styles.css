@@ -133,7 +133,10 @@ h1 {
   border-radius: 7px;
   font-size: 13px;
   font-weight: 600;
-  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    transform 140ms ease;
 }
 
 .button:active {
@@ -392,7 +395,10 @@ h1 {
 .expense-item {
   min-height: 77px;
   display: grid;
-  grid-template-columns: minmax(160px, 1fr) minmax(105px, 0.7fr) minmax(105px, 0.65fr) auto;
+  grid-template-columns: minmax(160px, 1fr) minmax(105px, 0.7fr) minmax(
+      105px,
+      0.65fr
+    ) auto;
   align-items: center;
   gap: 14px;
   border-bottom: 1px solid #efeee9;
